@@ -601,3 +601,11 @@ html.js .sec-head.in h2 .wd { animation: wordin .85s cubic-bezier(.2,.7,.2,1) bo
 .film-ch button.on { background: var(--ink); border-color: var(--ink); color: var(--bg); } .film-ch button.on i { color: color-mix(in srgb, var(--bg) 70%, transparent); }
 @media (max-width: 640px) { .film { padding: 6px; border-radius: 18px; } .film video { border-radius: 12px; } .film-big { height: 52px; font-size: 14px; padding: 0 18px 0 14px; } .ftime { display: none; } }
 .tool-row b { flex: 1 1 0; min-width: 60%; }
+
+/* latency chart: the last row follows the slider */
+.lrow.live { margin-top: 6px; padding-top: 12px; border-top: 1px dashed var(--line); }
+.lrow.live .who, .lrow.live .v { color: var(--acc); font-weight: 600; }
+.lrow.live .tr { position: relative; overflow: visible; }
+.lrow.live .tr i.lv { transition: width .12s linear; }
+.lrow.live .tr i.lv:first-child { border-radius: 6px 0 0 6px; } .lrow.live .tr i.lv:nth-child(2) { border-radius: 0 6px 6px 0; }
+.lrow.live .mk { position: absolute; top: -5px; bottom: -5px; width: 0; border-left: 2px dashed var(--ink); opacity: .55; }

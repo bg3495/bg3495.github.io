@@ -546,18 +546,27 @@
       ['Direct inference', [seg_(DIRECT, 'var(--direct)', '<b>Direct</b> · 2.65 s')], DIRECT],
       ['No-tool path', [seg_(E.notool, 'var(--direct)', `<b>Routing → answer</b> · ${fmt(E.notool, 2)} s<br>+${fmt(E.notool - DIRECT, 2)} s over direct`)], E.notool],
       ['Recovery path', [seg_(ROUTE, 'var(--sky)', '<b>Routing</b> ≈ 3.9 s'), seg_(rest, 'var(--acc)', `<b>Restoration</b> ≈ ${fmt(rest, 2)} s`), seg_(E.reason, 'var(--zs)', `<b>Re-reasoning</b> · ${fmt(E.reason, 2)} s`)], E.tool],
-      [`${E.name} average`, [seg_(E.avg, 'linear-gradient(90deg,var(--acc),var(--sky))', `<b>${E.name} average</b> · ${fmt(E.avg, 2)} s (${fmt(E.avg / DIRECT)}×)`)], E.avg],
-    ].map(([n, s, v]) => `<div class="lrow"><span class="who">${n}</span><div class="tr">${s.join('')}</div><span class="v">${fmt(v, 2)} s</span></div>`).join('');
+    ].map(([n, s, v]) => `<div class="lrow"><span class="who">${n}</span><div class="tr">${s.join('')}</div><span class="v">${fmt(v, 2)} s</span></div>`).join('') +
+      `<div class="lrow live"><span class="who" id="effLab"></span><div class="tr"><i class="lv" id="effA" style="background:var(--direct)"></i><i class="lv" id="effB" style="background:linear-gradient(90deg,var(--acc),var(--sky))"></i><b class="mk" id="effMk"></b></div><span class="v" id="effVal"></span></div>`;
     requestAnimationFrame(() => requestAnimationFrame(() => $$('i[data-w]', lat).forEach((i) => (i.style.width = i.dataset.w + '%'))));
     $('#effMarks').innerHTML = Object.values(EFF).map((x) => `<button style="left:${x.rate}%" data-r="${x.rate}">${x.name} ${x.rate}%</button>`).join('');
     $$('#effMarks button').forEach((b) => b.addEventListener('click', () => { rng.value = b.dataset.r; upd(); }));
     rng.value = E.rate; upd();
   };
   const upd = () => {
-    const E = EFF[em], r = rng.value / 100, t = r * E.tool + (1 - r) * E.notool;
+    const E = EFF[em], r = rng.value / 100, t = Math.abs(rng.value - E.rate) < 0.06 ? E.avg : r * E.tool + (1 - r) * E.notool;
     rng.style.setProperty('--p', rng.value + '%');
     $('#effBig').innerHTML = `${fmt(t, 2)} s<small>${fmt(t / DIRECT)}× direct</small>`;
     $('#effRate').textContent = fmt(+rng.value) + '% recover';
+    // the last chart row follows the slider: share of time on the no-tool path + share on the recovery path
+    const a = $('#effA'), b = $('#effB'); if (!a) return;
+    const wa = ((1 - r) * E.notool / MAXS) * 100, wb = (r * E.tool / MAXS) * 100, atMeasured = Math.abs(rng.value - E.rate) < 0.06;
+    a.style.width = wa + '%'; b.style.width = wb + '%';
+    a.dataset.tip = `<b>No-tool path</b> · ${fmt((1 - r) * 100)}% of samples × ${fmt(E.notool, 2)} s`;
+    b.dataset.tip = `<b>Recovery path</b> · ${fmt(r * 100)}% of samples × ${fmt(E.tool, 2)} s`;
+    $('#effLab').textContent = atMeasured ? `${E.name} average` : `Expected at ${fmt(+rng.value, 0)}%`;
+    $('#effVal').textContent = fmt(t, 2) + ' s';
+    $('#effMk').style.left = (E.avg / MAXS) * 100 + '%'; $('#effMk').dataset.tip = `<b>Measured ${E.name} average</b> · ${fmt(E.avg, 2)} s at ${E.rate}% recovery`;
   };
   rng.addEventListener('input', upd);
   seg($('#effSeg'), (v) => { em = v; drawEff(); });
