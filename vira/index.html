@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ViRA: Agentic Video Recovery</title>
+<meta name="description" content="ViRA is a query-conditioned Video Recovery Agent that diagnoses, restores, and reasons over corrupted videos.">
+<meta property="og:title" content="ViRA: Agentic Recovery for Robust Video Understanding under Corruption">
+<meta property="og:description" content="Diagnose, restore, reason. +3.0 average accuracy under corruption, up to +9.5, with no loss on clean videos.">
+<meta property="og:image" content="assets/img/teaser.jpg">
+<link rel="icon" href="assets/img/mark.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css?v=6">
+<script>document.documentElement.classList.add('js');try{var t=localStorage.getItem('vira-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
+</head>
+<body id="top">
+<div class="progress" id="progress"></div>
+
+<nav class="island" id="island" aria-label="Main">
+  <a class="brand" href="#top"><img class="mark" src="assets/img/mark.svg" alt="">ViRA</a>
+  <div class="links" id="navlinks">
+    <span class="pill" id="pill"></span>
+    <a href="#overview">Overview</a>
+    <a href="#method">Method</a>
+    <a href="#results">Results</a>
+    <a href="#case">Case study</a>
+    <a href="#analysis">Analysis</a>
+    <a href="#cite">Cite</a>
+  </div>
+  <div class="tools">
+    <button class="ib" id="theme" aria-label="Toggle dark mode" title="Toggle theme">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    </button>
+    <button class="ib menu" id="menu" aria-label="Open menu" aria-expanded="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+  </div>
+</nav>
+<div class="sheet" id="sheet">
+  <a href="#overview">Overview</a><a href="#method">Method</a><a href="#results">Results</a><a href="#case">Case study</a><a href="#analysis">Analysis</a><a href="#cite">Cite</a>
+</div>
+
+<aside class="toc" id="toc" aria-label="Contents">
+  <div class="lab">Contents</div>
+  <a href="#overview"><i>01</i>Overview</a>
+  <a href="#method"><i>02</i>Method</a>
+  <a href="#results"><i>03</i>Results</a>
+  <a href="#case"><i>04</i>Case study</a>
+  <a href="#analysis"><i>05</i>Analysis</a>
+  <a href="#cite"><i>06</i>Citation</a>
+</aside>
+
+<header class="hero">
+  <div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
+  <div class="w">
+    <div>
+      <div class="venue" data-r><i></i>Preprint 2026 · Robust video understanding</div>
+      <h1 class="title"><img class="mark" src="assets/img/mark.svg" alt=""><span aria-label="ViRA"><b>V</b><b>i</b><b>R</b><b>A</b></span></h1>
+      <p class="kicker" data-r>Agentic recovery for robust video understanding <em>under corruption.</em></p>
+      <p class="tag" data-r>A Video Recovery Agent that decides <b>whether</b> to restore, <b>which</b> tool to call, and <b>where</b> in the video to apply it, before it reasons.</p>
+      <div data-r>
+        <div class="authors">
+          Bryan Gao<sup>1</sup>&ensp; Ce Zhang<sup>2</sup>&ensp; Bojiang Jin<sup>3</sup>&ensp; Weiguo Feng<sup>3</sup>
+        </div>
+        <div class="affils">
+          <span><sup>1</sup>University of Michigan</span>
+          <span><sup>2</sup>Carnegie Mellon University</span>
+          <span><sup>3</sup>TikTok Inc.</span>
+        </div>
+        <div class="cta">
+          <a class="btn pri" href="#results">See the results <span aria-hidden="true">→</span></a>
+          <a class="btn" href="#top" title="The paper link will be added once it is public">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg>
+            Paper <small>soon</small></a>
+          <a class="btn" href="#top" title="The arXiv link will be added once the paper is on arXiv">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#b31b1b" stroke-width="2.2" stroke-linecap="round"><path d="M5 4l14 16M19 4L5 20"/></svg>
+            arXiv <small>soon</small></a>
+          <a class="btn" href="#top" title="Code will be released">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-3.2 19.5c.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.3-3.4-1.3-.5-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.3 1.1 2.9.8.1-.6.3-1.1.6-1.3-2.2-.3-4.6-1.1-4.6-5a3.9 3.9 0 0 1 1-2.7 3.6 3.6 0 0 1 .1-2.7s.8-.3 2.8 1a9.6 9.6 0 0 1 5 0c1.9-1.3 2.8-1 2.8-1 .4 1 .4 1.9.1 2.7a3.9 3.9 0 0 1 1 2.7c0 3.9-2.3 4.7-4.6 5 .4.3.7.9.7 1.9V21c0 .3.2.6.7.5A10 10 0 0 0 12 2z"/></svg>
+            Code <small>soon</small></a>
+          <a class="btn" href="#cite">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 7h4v4H7zM7 11c0 3-1 5-3 6M15 7h4v4h-4zM15 11c0 3-1 5-3 6"/></svg>
+            BibTeX</a>
+        </div>
+      </div>
+    </div>
+
+    <div data-r>
+      <div class="lens-card" id="lensCard">
+        <div class="lens" id="lens" aria-label="Interactive before and after: move the pointer over the foggy frame to recover it">
+          <div class="lay deg"></div>
+          <div class="lay rec"></div>
+          <div class="scan"></div>
+          <div class="ring"></div>
+          <div class="fno" id="lensNo">frame 7</div>
+          <div class="hint" id="lensHint">Move over the frame to recover it</div>
+        </div>
+        <div class="lens-foot">
+          <div class="trace" id="trace" aria-hidden="true"><span data-s="0">Diagnose</span><i></i><span data-s="1">Restore</span><i></i><span data-s="2">Reason</span></div>
+          <div class="dots" id="lensDots"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <a class="scroll-cue" href="#after" aria-label="Scroll down"></a>
+</header>
+
+<main id="after">
+  <div class="marquee" aria-hidden="true"><div class="mq" id="mq"></div></div>
+  <div class="w">
+    <div class="stats" data-r>
+      <div><b><span data-count="3.0" data-dec="1" data-pre="+">0</span><small>pts</small></b><span>average gain under corruption across backbones</span></div>
+      <div><b><span data-count="9.5" data-dec="1" data-pre="+">0</span><small>pts</small></b><span>largest gain, NExT-QA under full corruption</span></div>
+      <div><b><span data-count="15">0</span><small>/15</small></b><span>settings improved on Qwen3.5-9B</span></div>
+      <div><b><span data-count="2.1" data-dec="1" data-pre="+">0</span><small>pts</small></b><span>on <i>clean</i> videos: no robustness tax</span></div>
+    </div>
+
+    <nav class="contents" data-r aria-label="Sections">
+      <a href="#overview"><i>01</i>Overview</a>
+      <a href="#method"><i>02</i>Diagnose, restore, reason</a>
+      <a href="#results"><i>03</i>Results</a>
+      <a href="#case"><i>04</i>Case study</a>
+      <a href="#analysis"><i>05</i>Analysis</a>
+    </nav>
+
+    <!-- 01 -->
+    <section class="sec" id="overview">
+      <div class="sec-head" data-r><div class="no">01 — OVERVIEW</div><h2>Recover the evidence, then reason.</h2></div>
+      <p class="lead" data-r>Video MLLMs are strong on clean footage but stumble when blur, haze, low light, or occlusion hides the frames that matter. ViRA treats recovery as an <b>action</b> taken by the model itself, guided by the question.</p>
+      <figure class="card teaser" data-r data-zoom="assets/img/teaser.jpg">
+        <img src="assets/img/teaser.jpg" alt="Overview of ViRA: direct inference fails on a degraded video, ViRA diagnoses missing evidence, selects dehazing for frames 1–4 and low-light enhancement for frames 6–7, and answers correctly on the recovered video." loading="lazy">
+      </figure>
+      <p class="cap" data-r><b>Overview of ViRA.</b> (a) Direct MLLM inference on a degraded video fails when task-relevant evidence is obscured. (b) ViRA diagnoses insufficient evidence, selects restoration tools, and grounds each call to the affected frames. (c) The recovered video restores the missing evidence while leaving already-sufficient frames untouched. Click to enlarge.</p>
+
+      <div class="abstract" data-r>
+        <div class="side">Abstract</div>
+        <div>
+          <p>Video understanding models perform well on clean, high-quality inputs, yet their robustness to real-world degradations remains underexplored. Blur, noise, low illumination, haze, and occlusion can obscure critical visual evidence, and such degradations are often heterogeneous and localized, so uniform restoration is both inefficient and potentially unnecessary.</p>
+          <div class="more" id="absMore"><p style="margin-top:14px">We introduce <b>ViRA</b>, a <b>Vi</b>deo <b>R</b>ecovery <b>A</b>gent that integrates visual recovery directly into the reasoning process. Following a diagnose–restore–reason paradigm, ViRA jointly determines whether recovery is necessary, which restoration tools to invoke, and where in the video each tool should be applied. Conditioned on both the video and the query, it selectively recovers only the temporal regions whose degradation obscures task-relevant evidence, then reasons over the recovered observation. Across Video-MME, STAR, and NExT-QA, diverse degradation types, and multiple MLLM backbones, ViRA improves accuracy under corruption by 3.0 points on average and by up to 9.5 points over direct inference, while preserving, and even slightly improving, accuracy on uncorrupted videos.</p></div>
+          <button class="linkbtn" id="absBtn" aria-expanded="false" aria-controls="absMore">Read full abstract <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 02 -->
+    <section class="sec" id="method">
+      <div class="sec-head" data-r><div class="no">02 — METHOD</div><h2>Diagnose. Restore. Reason.</h2></div>
+      <p class="lead" data-r>One decision stage. Given a degraded video and a query, the MLLM either answers directly, or emits a plan of temporally grounded tool calls <span class="mono" style="color:var(--ink)">u = (τ, [l, r])</span>. Tools run in sequence on their frame ranges; everything outside stays untouched.</p>
+
+      <div class="steps" id="steps" data-r>
+        <button class="card step on" data-i="0">
+          <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg></span>
+          <div class="k">STEP 1</div><h4>Diagnose</h4>
+          <p>Is the visual evidence sufficient for <i>this</i> question? A visible degradation doesn't need fixing if the answer is still readable.</p><span class="bar"></span>
+        </button>
+        <button class="card step" data-i="1">
+          <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.6 2.6-2.4-.6-.6-2.4z"/></svg></span>
+          <div class="k">STEP 2</div><h4>Restore</h4>
+          <p>Pick tools from a frozen library and ground each to a frame interval. Calls can repeat tools, overlap, and compose.</p><span class="bar"></span>
+        </button>
+        <button class="card step" data-i="2">
+          <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3a6 6 0 0 0-3.5 10.9V17h7v-3.1A6 6 0 0 0 12 3zM9.5 21h5"/></svg></span>
+          <div class="k">STEP 3</div><h4>Reason</h4>
+          <p>Answer over the recovered video. When no recovery was needed, the first answer is returned with no second call.</p><span class="bar"></span>
+        </button>
+      </div>
+
+      <h3 data-r>Try it: build a recovery plan</h3>
+      <p class="sub" data-r>Each tile is one of the 16 sampled frames. Pick a corruption regime, then <b>drag</b> the tool-call bars (move them, or pull their edges) to choose where each tool runs. A frame clears only when the right tool covers it. Press <b>ViRA plan</b> to see the plan ViRA would emit for this layout.</p>
+      <div class="card play" data-r>
+        <div class="ctl">
+          <span class="lab">Regime</span>
+          <div class="seg" id="regSeg"><span class="knob"></span>
+            <button data-v="all" aria-pressed="false">All · fog</button>
+            <button data-v="half" aria-pressed="false">Half · glass</button>
+            <button data-v="mixed" aria-pressed="true">Mixed · 4 types</button>
+          </div>
+        </div>
+        <div class="track" id="track"></div>
+        <div class="legend" id="legend"></div>
+        <div class="lanes" id="lanes"></div>
+        <div class="play-bar">
+          <select id="toolPick" aria-label="Tool to add"></select>
+          <button class="sbtn" id="addCall"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Add call</button>
+          <button class="sbtn pri" id="autoPlan"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/></svg>ViRA plan</button>
+          <button class="sbtn" id="clearCalls">Clear</button>
+        </div>
+        <div class="meter"><span>Frames recovered</span><div class="m"><i id="meterFill"></i></div><b id="meterTxt" class="mono">0 / 16</b></div>
+        <div class="eqn" id="eqn"></div>
+        <div class="log" id="log"></div>
+      </div>
+      <p class="cap" data-r>An illustration of the action space in §3; frames are drawn from the VRU-Accident case below with simulated corruptions. Tool assignments follow the paper's recovery toolbox.</p>
+
+      <h3 data-r>The recovery toolbox</h3>
+      <p class="sub" data-r>Ten degradation types in four families, each mapped to a classical or regression-based restorer, so no generative model can hallucinate evidence. Hover or tap a card to flip it.</p>
+      <div class="ctl" data-r>
+        <span class="lab">Family</span>
+        <div class="chips" id="famChips"></div>
+      </div>
+      <div class="tools-grid" id="toolsGrid" data-r></div>
+    </section>
+
+    <!-- 03 -->
+    <section class="sec" id="results">
+      <div class="sec-head" data-r><div class="no">03 — RESULTS</div><h2>Robust under corruption. Free on clean video.</h2></div>
+      <p class="lead" data-r>Accuracy (%) on Video-MME (Short / Medium / Long), STAR, and NExT-QA across four backbones. <b>A</b> corrupts all 16 frames, <b>H</b> a contiguous half, and <b>M</b> applies four different corruptions to four 4-frame blocks.</p>
+
+      <div class="card lb" data-r>
+        <div class="ctl">
+          <span class="lab">View</span>
+          <div class="seg" id="viewSeg"><span class="knob"></span>
+            <button data-v="dumb" aria-pressed="true">Before → after</button>
+            <button data-v="bars" aria-pressed="false">Bars</button>
+            <button data-v="gain" aria-pressed="false">Gain map</button>
+            <button data-v="table" aria-pressed="false">Full table</button>
+          </div>
+          <span class="lab">Regime</span>
+          <div class="seg" id="lbReg"><span class="knob"></span>
+            <button data-v="0" aria-pressed="true">A · All</button>
+            <button data-v="1" aria-pressed="false">H · Half</button>
+            <button data-v="2" aria-pressed="false">M · Mixed</button>
+          </div>
+        </div>
+        <div class="ctl" id="bbRow">
+          <span class="lab">Backbone</span>
+          <div class="seg" id="bbSeg"><span class="knob"></span></div>
+        </div>
+        <div id="lbBody"></div>
+      </div>
+
+      <div class="two" style="margin-top:16px">
+        <div class="card rw" data-r>
+          <h4>Transfer to real-world driving</h4>
+          <p class="s">253 naturally degraded driving videos, 759 questions. No synthetic corruption is added.</p>
+          <div id="rwBody"></div>
+        </div>
+        <div class="card" data-r>
+          <h4>Clean videos: no trade-off</h4>
+          <p class="s">Qwen3.5-9B on uncorrupted inputs. ViRA improves all five subsets, +2.1 on average.</p>
+          <div id="cleanBody"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 04 -->
+    <section class="sec" id="case">
+      <div class="sec-head" data-r><div class="no">04 — CASE STUDY</div><h2>A cyclist, hidden in fog.</h2></div>
+      <p class="lead" data-r>A VRU-Accident clip under mixed corruption: overexposure (1–4), glass occlusion (5–8), fog/smoke (9–12), underexposure (13–16). ViRA localizes the evidence to frames 5–12 and recovers only those.</p>
+      <div class="card case" data-r>
+        <div class="q">
+          <div class="qi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6V14M12 17.5v.01"/></svg></div>
+          <div><div class="ql">Question · your turn first</div><div class="qt">How could this accident be prevented?</div></div>
+        </div>
+        <div class="opts" id="opts">
+          <button class="opt" data-k="A"><b>A.</b> Pedestrians should be more cautious when crossing busy roads<span class="tagx"></span></button>
+          <button class="opt" data-k="B"><b>B.</b> Cyclists should avoid riding on motorways<span class="tagx"></span></button>
+          <button class="opt" data-k="C"><b>C.</b> Motorcyclists should wear reflective gear to increase visibility<span class="tagx"></span></button>
+          <button class="opt" data-k="D"><b>D.</b> Drivers should reduce speed limits in urban areas for safety<span class="tagx"></span></button>
+        </div>
+        <div class="quizmsg" id="quizmsg">Look at the degraded frames and pick an answer. Then drag the slider to see what ViRA recovered.</div>
+        <div class="cmp" id="cmp" role="slider" aria-label="Compare degraded and recovered frame" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" tabindex="0">
+          <div class="lay a"></div><div class="lay b"></div>
+          <span class="lb1">DEGRADED</span><span class="lb2">RECOVERED · ViRA</span>
+          <span class="cor" id="cmpCor">Frame 5 · glass occlusion</span>
+          <div class="hd"></div>
+        </div>
+        <div class="thumbs" id="thumbs"></div>
+        <div class="flow">
+          <span>Qwen3.5-9B</span><em>→</em><span class="k">RECOVER</span><em>→</em><span>dark-channel dehazing + contrast enhancement</span><span class="g">[5–12]</span><em>→</em><span class="g">Answer: B ✓</span>
+        </div>
+        <p class="cap">Red boxes mark the cyclist entering the motorway (frames 6–9), only discernible after recovery. ← / → keys step through frames when the viewer is focused.</p>
+      </div>
+    </section>
+
+    <!-- 05 -->
+    <section class="sec" id="analysis">
+      <div class="sec-head" data-r><div class="no">05 — ANALYSIS</div><h2>Where the gains come from, and what they cost.</h2></div>
+
+      <h3 data-r style="margin-top:8px">Per-degradation robustness</h3>
+      <p class="sub" data-r>Qwen3.5-9B under full corruption on Video-MME. Each axis has its own range; compare methods within an axis.</p>
+      <div class="card radar" data-r>
+        <div>
+          <div class="ctl">
+            <span class="lab">Videos</span>
+            <div class="seg" id="radSeg"><span class="knob"></span>
+              <button data-v="short" aria-pressed="true">Short</button>
+              <button data-v="medium" aria-pressed="false">Medium</button>
+              <button data-v="long" aria-pressed="false">Long</button>
+            </div>
+            <span class="lab">Scale</span>
+            <div class="seg" id="radScale"><span class="knob"></span>
+              <button data-v="axis" aria-pressed="true">Per-axis</button>
+              <button data-v="shared" aria-pressed="false">Shared</button>
+            </div>
+          </div>
+          <div class="stage" id="radarStage"></div>
+        </div>
+        <div class="side">
+          <div class="chips" id="radChips">
+            <button data-s="direct" aria-pressed="true"><i style="background:var(--direct)"></i>Direct</button>
+            <button data-s="zs" aria-pressed="true"><i style="background:var(--zs)"></i>ViRA-ZS</button>
+            <button data-s="vira" aria-pressed="true"><i style="background:var(--acc)"></i>ViRA</button>
+          </div>
+          <div class="readout" id="radOut"></div>
+          <p>Move over the chart to read a degradation. <b>Low-light noise</b> is held out of training entirely, yet still improves.</p>
+        </div>
+      </div>
+      <p class="cap" data-r>Values are read from the paper's radar figure. "Per-axis" uses each axis's own range, as in the paper; "Shared" puts every axis on one 40–72% scale.</p>
+
+      <h3 data-r>Efficiency: pay only when you recover</h3>
+      <p class="sub" data-r>Average latency per sample on fully corrupted videos. Hover a segment for its stage.</p>
+      <div class="card eff" data-r>
+        <div class="seg" id="effSeg" style="margin-bottom:14px"><span class="knob"></span>
+          <button data-v="zs" aria-pressed="false">ViRA-ZS</button>
+          <button data-v="vira" aria-pressed="true">ViRA</button>
+        </div>
+        <div class="lat" id="lat"></div>
+        <div class="keyrow"><span><i style="background:var(--direct)"></i>Direct / no-tool path</span><span><i style="background:var(--sky)"></i>Routing ≈3.9 s</span><span><i style="background:var(--acc)"></i>Restoration</span><span><i style="background:var(--zs)"></i>Re-reasoning</span></div>
+        <div class="slider">
+          <div class="top">
+            <span>Drag the <b>tool-invocation rate</b>: expected latency</span>
+            <span class="big" id="effBig">7.06 s<small>2.7×</small></span>
+          </div>
+          <input type="range" id="effRange" min="0" max="100" step="0.1" value="76.6" aria-label="Tool invocation rate">
+          <div class="ticks"><span>0% · no-tool path only</span><span id="effRate">76.6%</span><span>100% · always recover</span></div>
+          <div class="marks" id="effMarks"></div>
+        </div>
+        <p class="cap">Measured on fully corrupted inputs, where ViRA recovers on 76.6% of samples (ViRA-ZS: 30.1%). On cleaner inputs that trigger recovery less often, average latency approaches the no-tool path (≈1.3× direct).</p>
+      </div>
+
+      <h3 data-r>Complementary to adaptive keyframe sampling</h3>
+      <p class="sub" data-r>Qwen3.5-9B with AKS under full corruption. Choosing the right frames doesn't remove the need to recover them: ViRA adds +4.6 points on average over AKS alone.</p>
+      <div class="card lb" data-r>
+        <div class="ctl"><span class="lab">Frame budget</span>
+          <div class="seg" id="aksSeg"><span class="knob"></span>
+            <button data-v="0" aria-pressed="false">8 frames</button>
+            <button data-v="1" aria-pressed="true">16 frames</button>
+          </div>
+        </div>
+        <div class="bars" id="aksBody"></div>
+      </div>
+    </section>
+
+    <!-- 06 -->
+    <section class="sec" id="cite">
+      <div class="sec-head" data-r><div class="no">06 — CITATION</div><h2>Cite ViRA</h2></div>
+      <p class="sub" data-r>If you find this work useful, please consider citing:</p>
+      <div class="bib" data-r>
+        <pre id="bib"><span class="k">@article</span>{gao2026vira,
+  <span class="f">title</span>   = {ViRA: Agentic Recovery for Robust Video Understanding under Corruption},
+  <span class="f">author</span>  = {Gao, Bryan and Zhang, Ce and Jin, Bojiang and Feng, Weiguo},
+  <span class="f">journal</span> = {arXiv preprint},
+  <span class="f">year</span>    = {2026}
+}</pre>
+        <button class="copy" id="copyBib"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span>Copy</span></button>
+      </div>
+      <p class="ack" data-r>We evaluate on Video-MME, STAR, NExT-QA, and VRU-Accident, and curate real-world driving footage from DrivingDojo, Boreas, Boreas-RT, BDD100K, and DrivingHazy/GoProHazy. We thank the authors of these datasets and of the restoration models in our toolbox.</p>
+    </section>
+  </div>
+</main>
+
+<footer><div class="wordmark" id="wordmark" aria-hidden="true">ViRA</div><div class="w"><span>ViRA · Video Recovery Agent</span><span><a href="../" style="color:inherit">Bryan Gao's homepage</a> · © 2026 the authors</span></div></footer>
+
+<button class="totop" id="totop" aria-label="Back to top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+<div class="lb-ov" id="lbox" role="dialog" aria-modal="true" aria-label="Enlarged figure"><button class="cl" aria-label="Close">✕</button><img alt=""></div>
+<div class="toast" id="toast"></div>
+<div class="tip" id="tip"></div>
+<script src="assets/main.js?v=6"></script>
+</body>
+</html>
