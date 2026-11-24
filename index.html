@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,57 +10,59 @@
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/home.css?v=4">
-<script>document.documentElement.classList.add('js');try{var t=localStorage.getItem('bg-theme2');if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/home.css?v=2">
+<script>document.documentElement.classList.add('js');try{var t=localStorage.getItem('bg-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
 </head>
 <body id="top">
-<div class="glow" id="glow" aria-hidden="true"></div>
 <div class="progress" id="progress"></div>
 
-<nav class="bar" id="bar" aria-label="Main">
-  <a class="logo" href="#top">bryan <i>gao</i></a>
+<nav class="island" id="island" aria-label="Main">
+  <a class="brand" href="#top"><span class="mono-mark">BG</span>Bryan Gao</a>
   <div class="links" id="navlinks">
-    <a href="#about"><span>01</span>About</a>
-    <a href="#work"><span>02</span>Work</a>
-    <a href="#path"><span>03</span>Path</a>
-    <a href="#contact"><span>04</span>Contact</a>
+    <span class="pill" id="pill"></span>
+    <a href="#research">Research</a>
+    <a href="#papers">Papers</a>
+    <a href="#experience">Experience</a>
+    <a href="#education">Education</a>
+    <a href="#contact">Contact</a>
   </div>
-  <button class="tog" id="theme" aria-label="Switch between dark and light" title="Theme (D)"><i></i></button>
+  <div class="tools">
+    <button class="ib" id="theme" aria-label="Toggle dark mode" title="Toggle theme (D)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    </button>
+  </div>
 </nav>
 
-<header class="hero" id="hero">
-  <canvas id="field" aria-hidden="true"></canvas>
-  <div class="w hero-in">
-    <p class="eyebrow" data-r><span class="live"></span>Computer Science × Data Science × Mathematics — University of Michigan</p>
-    <h1 class="name" id="name" aria-label="Bryan Gao">Bryan Gao</h1>
-    <p class="pitch" data-r>I build machine-learning systems that stay reliable <em>when the input isn't.</em></p>
-    <p class="now" data-r><span class="k">Working on</span><span class="scr" id="scr" aria-live="off">robust video understanding</span></p>
-    <div class="cta" data-r>
-      <a class="btn solid mag" href="#work"><span>See the work</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M7 17L17 7M9 7h8v8"/></svg></a>
-      <button class="btn mag" id="copyMail" data-mail="bryangao@umich.edu"><span>Copy email</span></button>
-      <a class="btn mag" href="https://github.com/bg3495" rel="noopener"><span>GitHub</span></a>
-      <a class="btn mag" href="https://www.linkedin.com/in/bryan-gao" rel="noopener"><span>LinkedIn</span></a>
+<header class="hero">
+  <div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
+  <div class="w">
+    <div class="hero-main">
+      <div class="venue" data-r><i></i>University of Michigan · Class of 2027</div>
+      <h1 class="name" aria-label="Bryan Gao"><span class="ln">Bryan</span> <span class="ln">Gao</span></h1>
+      <p class="kicker" data-r>I build machine-learning systems that stay reliable <em>when the input isn't.</em></p>
+      <p class="tag" data-r>I'm an undergraduate at the University of Michigan studying Computer Science, Data Science, and Mathematics. My research is on robust multimodal models and agentic perception, and on bringing vision foundation models to high-content biology.</p>
+      <div class="cta" data-r>
+        <a class="btn pri" href="#papers">Read my work <span aria-hidden="true">→</span></a>
+        <button class="btn" id="copyMail" data-mail="bryangao@umich.edu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg><span>Copy email</span></button>
+        <a class="btn" href="https://github.com/bg3495" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-3.2 19.5c.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.3-3.4-1.3-.5-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.3 1.1 2.9.8.1-.6.3-1.1.6-1.3-2.2-.3-4.6-1.1-4.6-5a3.9 3.9 0 0 1 1-2.7 3.6 3.6 0 0 1 .1-2.7s.8-.3 2.8 1a9.6 9.6 0 0 1 5 0c1.9-1.3 2.8-1 2.8-1 .4 1 .4 1.9.1 2.7a3.9 3.9 0 0 1 1 2.7c0 3.9-2.3 4.7-4.6 5 .4.3.7.9.7 1.9V21c0 .3.2.6.7.5A10 10 0 0 0 12 2z"/></svg>GitHub</a>
+        <a class="btn" href="https://www.linkedin.com/in/bryan-gao" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.75h4V21H3zM9.5 9.75h3.8v1.6h.05c.53-1 1.83-1.9 3.75-1.9 4 0 4.4 2.5 4.4 5.8V21h-4v-5c0-1.3 0-3-1.85-3s-2.15 1.4-2.15 2.9V21h-4z"/></svg>LinkedIn</a>
+      </div>
     </div>
-  </div>
-  <div class="ticker" aria-hidden="true"><div class="tk" id="tk"></div></div>
-</header>
 
-<main>
-  <!-- about / bento -->
-  <section class="sec w" id="about">
-    <header class="sh" data-r><span class="idx">01</span><h2>At a <i>glance</i></h2></header>
-    <div class="bento">
-      <article class="tile bio" data-r>
-        <div class="avatar" aria-hidden="true">BG</div>
-        <p>I'm an undergraduate at the University of Michigan. Models that look strong on clean benchmarks often fail quietly on the data people actually have: foggy dashcam video, noisy labels, a microscope plate nobody annotated. I like problems where the fix is a system that <b>notices the input is bad and does something about it.</b></p>
-      </article>
-      <article class="tile num" data-r><span class="lab">Under review</span><b><span data-count="2">2</span></b><p>papers, one as first author</p></article>
-      <article class="tile num" data-r><span class="lab">GPA</span><b><span data-count="3.97" data-dec="2">3.97</span></b><p>of 4.0, three majors</p></article>
-      <article class="tile nowt" data-r data-tags="bio stats robust"><span class="lab"><span class="live"></span>Now</span><h3>Honors thesis, Sexton Lab</h3><p>Reliable infection estimates from drug-screen microscopy.</p></article>
-      <article class="tile clock" data-r><span class="lab">Ann Arbor, MI</span><b id="clock">--:--</b><p id="clockSub">local time</p></article>
-      <article class="tile ints" data-r id="focus">
-        <span class="lab">Interests — tap to highlight related work</span>
+    <aside class="card idcard" id="idcard" data-r aria-label="At a glance">
+      <div class="avatar" aria-hidden="true"><span>BG</span></div>
+      <div class="idrows">
+        <div><span>Now</span><b>Honors thesis, Sexton Lab</b></div>
+        <div><span>Before</span><b>ML Researcher, TikTok</b></div>
+        <div><span>Studying</span><b>CS · Data Science · Math</b></div>
+        <div><span>Based in</span><b>Ann Arbor, MI</b></div>
+      </div>
+      <div class="focus" id="focus">
+        <span class="lab">Interests</span>
         <div class="chips">
           <button data-k="vlm" aria-pressed="false">Video MLLMs</button>
           <button data-k="agent" aria-pressed="false">Agentic perception</button>
@@ -70,164 +72,213 @@
           <button data-k="bio" aria-pressed="false">ML for biology</button>
           <button data-k="stats" aria-pressed="false">Weak supervision</button>
         </div>
-      </article>
-      <article class="tile prev" data-r data-tags="vlm agent rl"><span class="lab">Before</span><h3>ML Researcher, TikTok</h3><p>Multimodal LLM research, summer 2026.</p></article>
+        <p class="hint">Tap an interest to highlight the related work below.</p>
+      </div>
+    </aside>
+  </div>
+  <a class="scroll-cue" href="#after" aria-label="Scroll down"></a>
+</header>
+
+<main id="after">
+  <div class="w">
+    <div class="stats" data-r>
+      <div><b><span data-count="2">0</span></b><span>papers under review, one first-author</span></div>
+      <div><b><span data-count="3">0</span></b><span>majors: CS, Data Science, Mathematics</span></div>
+      <div><b><span data-count="3.97" data-dec="2">0</span><small>/4.0</small></b><span>GPA, University Honors every term</span></div>
+      <div><b><span data-count="2">0</span></b><span>summers in industry research and data science</span></div>
     </div>
 
-    <div class="rows" id="rows">
-      <article class="row" data-r data-tags="vlm agent robust"><span class="n">i</span><h3>Robust video understanding</h3><p>Giving video MLLMs the ability to diagnose degraded evidence and restore it with tools before they answer.</p><span class="arr">↗</span></article>
-      <article class="row" data-r data-tags="rl data vlm"><span class="n">ii</span><h3>Training signals that can't be gamed</h3><p>RL post-training with verifiable rewards, distillation, and choosing the data a model is actually missing.</p><span class="arr">↗</span></article>
-      <article class="row" data-r data-tags="bio stats robust"><span class="n">iii</span><h3>Machine learning for biology</h3><p>Vision foundation models and careful statistics for drug-screen microscopy, where labels are scarce and noisy.</p><span class="arr">↗</span></article>
-    </div>
-  </section>
-
-  <!-- work -->
-  <section class="sec w" id="work">
-    <header class="sh" data-r><span class="idx">02</span><h2>Papers &amp; <i>preprints</i></h2></header>
-
-    <article class="paper tilt" data-r data-tags="vlm agent robust">
-      <a class="thumb" href="vira/" aria-label="Open the ViRA project page">
-        <img src="assets/img/vira-teaser.jpg" alt="ViRA overview figure: a degraded video, the recovery agent's tool calls, and the recovered video." loading="lazy">
-        <span class="chip">Project page ↗</span>
-      </a>
-      <div class="pbody">
-        <div class="status"><span class="st on">Oral · WACV 2027 LVR Workshop</span><span class="st">Under review · CVPR 2027</span></div>
-        <h3><a href="vira/">ViRA: Agentic Recovery for Robust Video Understanding under Corruption</a></h3>
-        <p class="auth"><b>Bryan Gao</b>, Ce Zhang, Bojiang Jin, Weiguo Feng</p>
-        <p class="sum">A Video Recovery Agent that decides whether to restore a degraded video, which tool to call, and which frames to apply it to, before reasoning. It gains 3.0 points on average under corruption (up to 9.5) across four backbones, and still improves accuracy on clean video.</p>
-        <div class="plinks">
-          <a class="sbtn solid" href="vira/">Project page</a>
-          <button class="sbtn" data-soon="Paper link coming soon">Paper <small>soon</small></button>
-          <button class="sbtn" data-soon="Code will be released">Code <small>soon</small></button>
-          <button class="sbtn" data-bib="vira">BibTeX</button>
-        </div>
+    <!-- research -->
+    <section class="sec" id="research">
+      <div class="sec-head" data-r><div class="no">01 — RESEARCH</div><h2>What I work on</h2></div>
+      <p class="lead" data-r>Models that look strong on clean benchmarks often fail quietly on the data people actually have: foggy dashcam video, noisy labels, a microscope plate nobody annotated. I like problems where the fix is a system that <b>notices the input is bad and does something about it</b>.</p>
+      <div class="three">
+        <article class="card pillar" data-r data-tags="vlm agent robust">
+          <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="6" width="13" height="12" rx="2"/><path d="M16 10l5-3v10l-5-3"/></svg></span>
+          <h4>Robust video understanding</h4>
+          <p>Giving video MLLMs the ability to diagnose degraded evidence and restore it with tools before they answer.</p>
+        </article>
+        <article class="card pillar" data-r data-tags="rl data vlm">
+          <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 18V6M4 18h16M8 14l3-4 3 2 5-6"/></svg></span>
+          <h4>Training signals that can't be gamed</h4>
+          <p>RL post-training with verifiable rewards, distillation, and choosing the data a model is actually missing.</p>
+        </article>
+        <article class="card pillar" data-r data-tags="bio stats robust">
+          <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="2.5"/><path d="M12 4v2M12 18v2M4 12h2M18 12h2"/></svg></span>
+          <h4>Machine learning for biology</h4>
+          <p>Vision foundation models and careful statistics for drug-screen microscopy, where labels are scarce and noisy.</p>
+        </article>
       </div>
-    </article>
+    </section>
 
-    <article class="paper tilt flip" data-r data-tags="data">
-      <div class="thumb graft" id="graft" aria-hidden="true"><canvas></canvas><span class="chip">Concept graph, illustrative</span></div>
-      <div class="pbody">
-        <div class="status"><span class="st">Under review · ICLR 2027</span></div>
-        <h3>GRAFT: Growing Missing Knowledge through Topology-Guided Data Selection</h3>
-        <p class="auth">X. Dai, <b>B. Gao</b>, C. Luo, Y. Zhang, et al.</p>
-        <p class="sum">A data-selection method for continual pretraining. It models what a language model already knows as layer-wise graphs of concept connections, then picks documents that link concepts the model has left isolated. Best average rank among the compared selection methods across ten benchmarks and three base models.</p>
-        <div class="plinks"><button class="sbtn" data-soon="Paper link coming soon">Paper <small>soon</small></button></div>
-      </div>
-    </article>
-  </section>
+    <!-- papers -->
+    <section class="sec" id="papers">
+      <div class="sec-head" data-r><div class="no">02 — PAPERS</div><h2>Papers and preprints</h2></div>
 
-  <!-- path -->
-  <section class="sec w" id="path">
-    <header class="sh" data-r><span class="idx">03</span><h2>Research &amp; <i>industry</i></h2>
-      <div class="seg" id="expSeg"><span class="knob"></span>
-        <button data-v="all" aria-pressed="true">All</button>
-        <button data-v="research" aria-pressed="false">Research</button>
-        <button data-v="industry" aria-pressed="false">Industry</button>
-      </div>
-    </header>
-
-    <div class="timeline" id="timeline">
-      <span class="rail"><i id="railFill"></i></span>
-
-      <article class="tl" data-kind="research" data-tags="bio stats robust" data-r>
-        <div class="yr"><b>2025</b><span>Aug — now</span></div>
-        <div class="tlc">
-          <div class="top"><div><h3>Sexton Lab, University of Michigan</h3><p class="role">Undergraduate Researcher · Data Science Honors Thesis</p></div><span class="st on">Ongoing</span></div>
-          <p class="sum">Scoring Astrovirus infection in a 384-well antiviral drug screen straight from microscope images, with a frozen vision foundation model in place of a hand-built, three-tool expert pipeline.</p>
-          <div class="lab-grid">
-            <div class="plate-wrap">
-              <div class="plate" id="plate" role="img" aria-label="Layout of a 384-well plate: virus-only controls in column 1, treatment wells in columns 2 to 22, mock controls in columns 23 and 24."></div>
-              <div class="legend"><span><i class="v"></i>Virus-only control</span><span><i class="t"></i>Treatment</span><span><i class="m"></i>Mock control</span></div>
-              <p class="plate-read" id="plateRead">Hover the plate: 16 rows × 24 columns, 9 microscope fields per well.</p>
-            </div>
-            <div>
-              <ul class="pts">
-                <li>Matched the lab's incumbent pipeline with no feature engineering: leave-one-plate-out AUROC <b>0.988</b> vs. 0.996 on expert-labeled cells.</li>
-                <li>Built the validation around the data's structure: plate- and field-level splits, a 1,000-shuffle permutation test, and per-plate consistency checks.</li>
-                <li>Assay quality holds on unseen plates, with Z′-factors of <b>0.75–0.83</b>.</li>
-                <li>Now turning it into a point-and-click tool that takes a plate from raw images to a ranked hit list, piloting on a 15-plate screen with about 1.5M cells per plate.</li>
-              </ul>
-              <details class="more">
-                <summary>Honors thesis: the statistics underneath</summary>
-                <p>A virus-only control well still contains uninfected cells, so using wells as labels bakes in label noise. The thesis treats this as inference under weak supervision: modeling the label noise with a mixture model, estimating per-well infection prevalence with calibrated uncertainty, handling plate effects hierarchically, and making hit calling an error-controlled procedure.</p>
-              </details>
-            </div>
+      <article class="card paper" data-r data-tags="vlm agent robust">
+        <a class="thumb" href="vira/" aria-label="Open the ViRA project page">
+          <img src="assets/img/vira-teaser.jpg" alt="ViRA overview figure: a degraded video, the recovery agent's tool calls, and the recovered video." loading="lazy">
+          <span class="chip">Project page →</span>
+        </a>
+        <div class="pbody">
+          <div class="status"><span class="st ok">Oral · WACV 2027 LVR Workshop</span><span class="st">Under review · CVPR 2027</span></div>
+          <h3><a href="vira/">ViRA: Agentic Recovery for Robust Video Understanding under Corruption</a></h3>
+          <p class="auth"><b>Bryan Gao</b>, Ce Zhang, Bojiang Jin, Weiguo Feng</p>
+          <p class="sum">A Video Recovery Agent that decides whether to restore a degraded video, which tool to call, and which frames to apply it to, before reasoning. It gains 3.0 points on average under corruption (up to 9.5) across four backbones, and still improves accuracy on clean video.</p>
+          <div class="plinks">
+            <a class="sbtn pri" href="vira/">Project page</a>
+            <button class="sbtn" data-soon="Paper link coming soon">Paper <small>soon</small></button>
+            <button class="sbtn" data-soon="Code will be released">Code <small>soon</small></button>
+            <button class="sbtn" data-bib="vira">BibTeX</button>
           </div>
-          <div class="tags"><span>DINOv3</span><span>Weak supervision</span><span>Prevalence estimation</span><span>High-content screening</span></div>
         </div>
       </article>
 
-      <article class="tl" data-kind="research" data-tags="vlm agent robust rl data" data-r>
-        <div class="yr"><b>2026</b><span>May — Aug</span></div>
-        <div class="tlc">
-          <div class="top"><div><h3>TikTok</h3><p class="role">Machine Learning Researcher · Multimodal LLM Research · San Jose, CA</p></div></div>
-          <ul class="pts">
-            <li><b>ViRA.</b> Conceived and led an agentic framework that puts visual restoration inside the reasoning loop of video MLLMs. Built the full robustness evaluation: 10 degradation types × 3 corruption regimes on Video-MME, STAR and NExT-QA across four models. <a href="vira/">Project page ↗</a></li>
-            <li><b>RL post-training.</b> Ran end-to-end reinforcement-learning post-training of vision-language models, with a fail-closed verifiable reward designed to prevent reward hacking on free-form outputs, and on-policy distillation to scale it to larger models.</li>
-            <li><b>Data and benchmarks.</b> Built a synthetic-data engine and a leak-resistant verification protocol for perception QA, so that every evaluation item depends on the video and has a single answer.</li>
-          </ul>
-          <div class="tags"><span>Video MLLMs</span><span>Tool use</span><span>GRPO</span><span>Distillation</span><span>Benchmark design</span></div>
+      <article class="card paper" data-r data-tags="data">
+        <div class="thumb graft" id="graft" aria-hidden="true"><canvas></canvas><span class="chip">Concept graph, illustrative</span></div>
+        <div class="pbody">
+          <div class="status"><span class="st">Under review · ICLR 2027</span></div>
+          <h3>GRAFT: Growing Missing Knowledge through Topology-Guided Data Selection</h3>
+          <p class="auth">X. Dai, <b>B. Gao</b>, C. Luo, Y. Zhang, et al.</p>
+          <p class="sum">A data-selection method for continual pretraining. It models what a language model already knows as layer-wise graphs of concept connections, then picks documents that link concepts the model has left isolated. Best average rank among the compared selection methods across ten benchmarks and three base models.</p>
+          <div class="plinks">
+            <button class="sbtn" data-soon="Paper link coming soon">Paper <small>soon</small></button>
+          </div>
         </div>
       </article>
+    </section>
 
-      <article class="tl" data-kind="industry" data-tags="data stats" data-r>
-        <div class="yr"><b>2025</b><span>May — Aug</span></div>
-        <div class="tlc">
-          <div class="top"><div><h3>ByteDance</h3><p class="role">Data Scientist Intern · San Jose, CA</p></div></div>
-          <ul class="pts">
-            <li>Designed an explainable churn-attribution pipeline for advertisers, combining tiered rules with Shapley-value decomposition across overlapping drivers, over three years of daily data.</li>
-            <li>Rebuilt an ad-inventory forecasting model with clear baselines and error targets, correcting a systematic underprediction.</li>
-          </ul>
-          <div class="tags"><span>Attribution</span><span>Forecasting</span><span>SQL</span><span>Python</span></div>
+    <!-- experience -->
+    <section class="sec" id="experience">
+      <div class="sec-head" data-r><div class="no">03 — EXPERIENCE</div><h2>Research and industry</h2></div>
+      <div class="ctl" data-r>
+        <span class="lab">Show</span>
+        <div class="seg" id="expSeg"><span class="knob"></span>
+          <button data-v="all" aria-pressed="true">Everything</button>
+          <button data-v="research" aria-pressed="false">Research</button>
+          <button data-v="industry" aria-pressed="false">Industry</button>
         </div>
-      </article>
+      </div>
 
-      <article class="tl" data-kind="industry" data-tags="stats" data-r>
-        <div class="yr"><b>2024</b><span>Sep — Jan</span></div>
-        <div class="tlc">
-          <div class="top"><div><h3>BOMIE</h3><p class="role">Marketing Data Analyst · New York, NY</p></div></div>
-          <ul class="pts"><li>Time-series analysis of sales trends and customer segmentation with clustering, in R and Tableau.</li></ul>
+      <div class="timeline" id="timeline">
+        <span class="rail"><i id="railFill"></i></span>
+
+        <article class="tl" data-kind="research" data-tags="bio stats robust" data-r>
+          <span class="dot live"></span>
+          <div class="when">Aug 2025 — Present</div>
+          <div class="card tlc">
+            <div class="top"><div><h3>Sexton Lab, University of Michigan</h3><p class="role">Undergraduate Researcher · Data Science Honors Thesis</p></div><span class="st ok">Ongoing</span></div>
+            <p class="sum">Scoring Astrovirus infection in a 384-well antiviral drug screen straight from microscope images, with a frozen vision foundation model in place of a hand-built, three-tool expert pipeline.</p>
+
+            <div class="lab-grid">
+              <div class="plate-wrap">
+                <div class="plate" id="plate" role="img" aria-label="Layout of a 384-well plate: virus-only controls in column 1, treatment wells in columns 2 to 22, mock controls in columns 23 and 24."></div>
+                <div class="legend"><span><i class="v"></i>Virus-only control</span><span><i class="t"></i>Treatment</span><span><i class="m"></i>Mock control</span></div>
+                <p class="plate-read" id="plateRead">Hover the plate: 16 rows × 24 columns, 9 microscope fields per well.</p>
+              </div>
+              <div>
+                <ul class="pts">
+                  <li>Matched the lab's incumbent pipeline with no feature engineering: leave-one-plate-out AUROC <b>0.988</b> vs. 0.996 on expert-labeled cells.</li>
+                  <li>Built the validation around the data's structure: plate- and field-level splits, a 1,000-shuffle permutation test, and per-plate consistency checks.</li>
+                  <li>Assay quality holds on unseen plates, with Z′-factors of <b>0.75–0.83</b>.</li>
+                  <li>Now turning it into a point-and-click tool that takes a plate from raw images to a ranked hit list, piloting on a 15-plate screen with about 1.5M cells per plate.</li>
+                </ul>
+                <details class="more">
+                  <summary>Honors thesis: the statistics underneath</summary>
+                  <p>A virus-only control well still contains uninfected cells, so using wells as labels bakes in label noise. The thesis treats this as inference under weak supervision: modeling the label noise with a mixture model, estimating per-well infection prevalence with calibrated uncertainty, handling plate effects hierarchically, and making hit calling an error-controlled procedure.</p>
+                </details>
+              </div>
+            </div>
+            <div class="tags"><span>DINOv3</span><span>Weak supervision</span><span>Prevalence estimation</span><span>High-content screening</span></div>
+          </div>
+        </article>
+
+        <article class="tl" data-kind="research" data-tags="vlm agent robust rl data" data-r>
+          <span class="dot"></span>
+          <div class="when">May — Aug 2026</div>
+          <div class="card tlc">
+            <div class="top"><div><h3>TikTok</h3><p class="role">Machine Learning Researcher · Multimodal LLM Research · San Jose, CA</p></div></div>
+            <ul class="pts">
+              <li><b>ViRA.</b> Conceived and led an agentic framework that puts visual restoration inside the reasoning loop of video MLLMs. Built the full robustness evaluation: 10 degradation types × 3 corruption regimes on Video-MME, STAR and NExT-QA across four models. <a href="vira/">Project page →</a></li>
+              <li><b>RL post-training.</b> Ran end-to-end reinforcement-learning post-training of vision-language models, with a fail-closed verifiable reward designed to prevent reward hacking on free-form outputs, and on-policy distillation to scale it to larger models.</li>
+              <li><b>Data and benchmarks.</b> Built a synthetic-data engine and a leak-resistant verification protocol for perception QA, so that every evaluation item depends on the video and has a single answer.</li>
+            </ul>
+            <div class="tags"><span>Video MLLMs</span><span>Tool use</span><span>GRPO</span><span>Distillation</span><span>Benchmark design</span></div>
+          </div>
+        </article>
+
+        <article class="tl" data-kind="industry" data-tags="data stats" data-r>
+          <span class="dot"></span>
+          <div class="when">May — Aug 2025</div>
+          <div class="card tlc">
+            <div class="top"><div><h3>ByteDance</h3><p class="role">Data Scientist Intern · San Jose, CA</p></div></div>
+            <ul class="pts">
+              <li>Designed an explainable churn-attribution pipeline for advertisers, combining tiered rules with Shapley-value decomposition across overlapping drivers, over three years of daily data.</li>
+              <li>Rebuilt an ad-inventory forecasting model with clear baselines and error targets, correcting a systematic underprediction.</li>
+            </ul>
+            <div class="tags"><span>Attribution</span><span>Forecasting</span><span>SQL</span><span>Python</span></div>
+          </div>
+        </article>
+
+        <article class="tl" data-kind="industry" data-tags="stats" data-r>
+          <span class="dot"></span>
+          <div class="when">Sep 2024 — Jan 2025</div>
+          <div class="card tlc">
+            <div class="top"><div><h3>BOMIE</h3><p class="role">Marketing Data Analyst · New York, NY</p></div></div>
+            <ul class="pts">
+              <li>Time-series analysis of sales trends and customer segmentation with clustering, in R and Tableau.</li>
+            </ul>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- education -->
+    <section class="sec" id="education">
+      <div class="sec-head" data-r><div class="no">04 — EDUCATION</div><h2>Education and tools</h2></div>
+      <div class="two">
+        <div class="card edu" data-r>
+          <div class="top"><div><h3>University of Michigan</h3><p class="role">B.S. in Computer Science, Data Science, and Mathematics</p></div><span class="when2">2023 — 2027</span></div>
+          <div class="awards">
+            <span>University Honors</span><span>James B. Angell Scholar</span><span>William J. Branstrom Freshman Prize</span>
+          </div>
+          <span class="lab">Coursework</span>
+          <div class="tags big"><span>Machine Learning Theory</span><span>Deep Learning</span><span>Reinforcement Learning</span><span>Computer Vision</span><span>Probability Theory</span><span>Regression Analysis</span><span>Combinatorics</span><span>Topology</span><span>Databases</span><span>Web Systems</span></div>
         </div>
-      </article>
-    </div>
+        <div class="card edu" data-r>
+          <h3>Tools I reach for</h3>
+          <div class="skill"><span class="lab">Languages</span><div class="tags big"><span>Python</span><span>C++</span><span>SQL</span><span>R</span><span>JavaScript</span></div></div>
+          <div class="skill"><span class="lab">Modeling</span><div class="tags big"><span>PyTorch</span><span>Hugging Face</span><span>LoRA / SFT</span><span>GRPO</span><span>Constrained decoding</span><span>scikit-learn</span></div></div>
+          <div class="skill"><span class="lab">Training and serving</span><div class="tags big"><span>Megatron-LM</span><span>SGLang</span><span>vLLM</span><span>Multi-GPU training</span></div></div>
+          <div class="skill"><span class="lab">Data</span><div class="tags big"><span>Pandas</span><span>Spark</span><span>Prophet</span><span>Tableau</span></div></div>
+        </div>
+      </div>
+    </section>
 
-    <div class="duo">
-      <article class="tile edu" data-r>
-        <span class="lab">Education · 2023 — 2027</span>
-        <h3>University of Michigan</h3>
-        <p class="role">B.S. in Computer Science, Data Science, and Mathematics</p>
-        <ul class="awards"><li>University Honors</li><li>James B. Angell Scholar</li><li>William J. Branstrom Freshman Prize</li></ul>
-        <div class="tags"><span>Machine Learning Theory</span><span>Deep Learning</span><span>Reinforcement Learning</span><span>Computer Vision</span><span>Probability Theory</span><span>Regression Analysis</span><span>Combinatorics</span><span>Topology</span><span>Databases</span><span>Web Systems</span></div>
-      </article>
-      <article class="tile edu" data-r>
-        <span class="lab">Tools I reach for</span>
-        <dl class="kit">
-          <dt>Languages</dt><dd>Python · C++ · SQL · R · JavaScript</dd>
-          <dt>Modeling</dt><dd>PyTorch · Hugging Face · LoRA / SFT · GRPO · constrained decoding · scikit-learn</dd>
-          <dt>Training &amp; serving</dt><dd>Megatron-LM · SGLang · vLLM · multi-GPU training</dd>
-          <dt>Data</dt><dd>Pandas · Spark · Prophet · Tableau</dd>
-        </dl>
-      </article>
-    </div>
-  </section>
-
-  <!-- contact -->
-  <section class="sec w contact" id="contact">
-    <span class="idx" data-r>04</span>
-    <h2 class="big" data-r>Say <i>hello.</i></h2>
-    <p data-r>I'm always glad to hear from people working on multimodal models, robustness, or ML for science.</p>
-    <div class="cta" data-r>
-      <a class="btn solid mag" href="mailto:bryangao@umich.edu"><span>bryangao@umich.edu</span></a>
-      <a class="btn mag" href="https://github.com/bg3495" rel="noopener"><span>GitHub</span></a>
-      <a class="btn mag" href="https://www.linkedin.com/in/bryan-gao" rel="noopener"><span>LinkedIn</span></a>
-    </div>
-  </section>
+    <!-- contact -->
+    <section class="sec" id="contact">
+      <div class="card contact" data-r>
+        <div>
+          <div class="no">05 — CONTACT</div>
+          <h2>Let's talk.</h2>
+          <p>I'm always glad to hear from people working on multimodal models, robustness, or ML for science.</p>
+        </div>
+        <div class="cta">
+          <a class="btn pri" href="mailto:bryangao@umich.edu">bryangao@umich.edu</a>
+          <a class="btn" href="https://github.com/bg3495" rel="noopener">GitHub</a>
+          <a class="btn" href="https://www.linkedin.com/in/bryan-gao" rel="noopener">LinkedIn</a>
+        </div>
+      </div>
+    </section>
+  </div>
 </main>
 
-<footer><div class="w"><span>© 2026 Bryan Gao</span><span>Ann Arbor, Michigan</span><a href="#top">Back to top ↑</a></div></footer>
+<footer><div class="wordmark" id="wordmark" aria-hidden="true">Bryan Gao</div><div class="w"><span>© 2026 Bryan Gao</span><span>Ann Arbor, Michigan</span></div></footer>
 
-<div class="modal" id="modal" role="dialog" aria-modal="true" aria-label="BibTeX"><div class="box"><pre id="bibText"></pre><div class="rowb"><button class="sbtn solid" id="bibCopy">Copy</button><button class="sbtn" id="bibClose">Close</button></div></div></div>
+<button class="totop" id="totop" aria-label="Back to top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-label="BibTeX"><div class="card box"><pre id="bibText"></pre><div class="row"><button class="sbtn pri" id="bibCopy">Copy</button><button class="sbtn" id="bibClose">Close</button></div></div></div>
 <div class="toast" id="toast"></div>
-<script src="assets/home.js?v=4"></script>
+<div class="tip" id="tip"></div>
+<script src="assets/home.js?v=1"></script>
 </body>
 </html>
