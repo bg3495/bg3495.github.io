@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/style.css?v=6">
+<link rel="stylesheet" href="assets/style.css?v=8">
 <script>document.documentElement.classList.add('js');try{var t=localStorage.getItem('vira-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
 </head>
 <body id="top">
@@ -108,6 +108,19 @@
 </header>
 
 <main id="after">
+  <section class="w film-sec" id="film" aria-label="Overview video">
+    <div class="film card" id="filmBox" data-r>
+      <video id="filmV" muted loop playsinline preload="none" poster="assets/video/overview.jpg?v=1" data-src="assets/video/overview.mp4?v=1" aria-label="ViRA overview video: the title and authors, the background on degraded video, why restoring every frame is not the answer, the diagnose, restore, reason method, the toolbox and training, and the results."></video>
+      <button class="film-big" id="filmBig" aria-label="Play overview video"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg><span>Watch the 1-minute overview</span></button>
+      <div class="film-ui">
+        <button class="fbtn" id="filmPlay" aria-label="Play or pause"><svg class="ip" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg><svg class="ipa" viewBox="0 0 24 24" fill="currentColor"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg></button>
+        <div class="fbar" id="filmBar" role="slider" tabindex="0" aria-label="Seek" aria-valuemin="0" aria-valuemax="63" aria-valuenow="0"><i id="filmFill"></i><span id="filmMarks"></span></div>
+        <span class="ftime" id="filmTime">0:00 / 1:03</span>
+        <button class="fbtn" id="filmFs" aria-label="Full screen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
+      </div>
+    </div>
+    <div class="film-ch" id="filmCh" data-r></div>
+  </section>
   <div class="marquee" aria-hidden="true"><div class="mq" id="mq"></div></div>
   <div class="w">
     <div class="stats" data-r>
@@ -194,12 +207,19 @@
       <p class="cap" data-r>An illustration of the action space in §3; frames are drawn from the VRU-Accident case below with simulated corruptions. Tool assignments follow the paper's recovery toolbox.</p>
 
       <h3 data-r>The recovery toolbox</h3>
-      <p class="sub" data-r>Ten degradation types in four families, each mapped to a classical or regression-based restorer, so no generative model can hallucinate evidence. Hover or tap a card to flip it.</p>
+      <p class="sub" data-r>Ten degradation types in four families, each paired with one restorer. Every tool is a classical algorithm or a regression-trained network, never a generative model, so nothing can hallucinate evidence. <b>Hover or tap a card</b> to run its tool on the sample frame.</p>
       <div class="ctl" data-r>
         <span class="lab">Family</span>
         <div class="chips" id="famChips"></div>
+        <button class="sbtn pri" id="tbAll" style="margin-left:auto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/></svg><span>Restore all</span></button>
       </div>
       <div class="tools-grid" id="toolsGrid" data-r></div>
+      <p class="cap" data-r>Previews are simulated in the browser on one clean dashcam frame to show what each degradation looks like; they are not outputs of the actual tools. For real recovered frames, see the <a href="#case">case study</a>.</p>
+      <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+        <filter id="f-ca" color-interpolation-filters="sRGB" x="-5%" width="110%"><feColorMatrix in="SourceGraphic" values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" result="r"/><feOffset in="r" dx="-5" result="ro"/><feColorMatrix in="SourceGraphic" values="0 0 0 0 0  0 1 0 0 0  0 0 0 0 0  0 0 0 1 0" result="g"/><feColorMatrix in="SourceGraphic" values="0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0" result="b"/><feOffset in="b" dx="5" result="bo"/><feBlend in="ro" in2="g" mode="screen" result="rg"/><feBlend in="rg" in2="bo" mode="screen"/></filter>
+        <filter id="f-mb" x="-10%" width="120%"><feGaussianBlur stdDeviation="7 0"/></filter>
+        <filter id="f-noise"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="4"/><feColorMatrix values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  1.6 0 0 0 -0.55"/></filter>
+      </defs></svg>
     </section>
 
     <!-- 03 -->
@@ -367,6 +387,6 @@
 <div class="lb-ov" id="lbox" role="dialog" aria-modal="true" aria-label="Enlarged figure"><button class="cl" aria-label="Close">✕</button><img alt=""></div>
 <div class="toast" id="toast"></div>
 <div class="tip" id="tip"></div>
-<script src="assets/main.js?v=6"></script>
+<script src="assets/main.js?v=8"></script>
 </body>
 </html>

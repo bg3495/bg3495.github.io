@@ -265,32 +265,54 @@
   });
   resetPlay();
 
-  /* ---------- toolbox ---------- */
+  /* ---------- toolbox: degradation previews + the tool that handles each ---------- */
   const FAM = { exp: ['Exposure & illumination', '#f0b34a'], col: ['Color distortion', '#d26ab0'], blur: ['Optical blur', '#3c7fd0'], atm: ['Atmosphere & occlusion', '#8a9aa1'] };
+  const TTYPE = { model: 'Learned model', classical: 'Classical', tone: 'Tone tool', combo: 'Composite' };
   const TB = [
-    ['exp', 'Underexposure', 'RetinexFormer', 'Retinex-based low-light enhancement.'],
-    ['exp', 'Overexposure', 'DeBright', 'Pulls back blown-out highlights.'],
-    ['exp', 'Low-light noise', 'Retinex + denoise', 'Held out of training: tests generalization.', true],
-    ['col', 'Color cast', 'Gray-World', 'Color-constancy correction of global shifts.'],
-    ['col', 'Chromatic aberration', 'Channel realignment', 'Re-aligns color channels to remove fringing.'],
-    ['blur', 'Defocus blur', 'Richardson–Lucy', 'Classical deconvolution.'],
-    ['blur', 'Motion blur', 'Restormer', 'Transformer-based motion deblurring.'],
-    ['atm', 'Fog / smoke', 'Dark Channel Prior', 'Haze removal, with CLAHE for contrast.'],
-    ['atm', 'Dust storm', 'TOENet', 'Visibility restoration for dust and sand.'],
-    ['atm', 'Glass occlusion', 'TOENet', 'Captured from real glass patterns.'],
+    ['exp', 'Underexposure', 'under', 'RetinexFormer', 'model', 'One-stage Retinex transformer for low-light enhancement.'],
+    ['exp', 'Overexposure', 'over', 'DeBright', 'tone', 'Pulls back blown-out highlights.'],
+    ['exp', 'Low-light noise', 'lln', 'Retinex + denoise', 'combo', 'Brightens, then suppresses the amplified sensor noise.', 'unseen'],
+    ['col', 'Color cast', 'cast', 'Gray-World', 'classical', 'Color constancy: rebalances the channels to a neutral mean.'],
+    ['col', 'Chromatic aberration', 'chroma', 'Channel realignment', 'classical', 'Shifts the color channels back into register to remove fringing.'],
+    ['blur', 'Defocus blur', 'defocus', 'Richardson–Lucy', 'classical', 'Iterative deconvolution with a blind estimate of the blur width.'],
+    ['blur', 'Motion blur', 'motion', 'Restormer', 'model', 'Restoration transformer trained for motion deblurring.'],
+    ['atm', 'Fog / smoke', 'fog', 'Dark Channel Prior + CLAHE', 'classical', 'Dehazing prior, then local contrast enhancement.', 'real'],
+    ['atm', 'Dust storm', 'dust', 'TOENet', 'model', 'Network for dust- and sandstorm visibility restoration.'],
+    ['atm', 'Glass occlusion', 'glass', 'TOENet', 'model', 'Restores the view through wet or dirty glass.', 'real'],
   ];
   const grid = $('#toolsGrid');
-  grid.innerHTML = TB.map(([f, n, t, d, held]) => `<button class="tool" data-f="${f}" aria-label="${n}: ${t}"><div class="in">
-    <div class="f">${held ? '<span class="badge">UNSEEN</span>' : ''}<span class="cat">${FAM[f][0]}</span><span class="sw" style="background:${FAM[f][1]}"></span><span class="nm">${n}</span></div>
-    <div class="b"><span class="lab">Tool</span><span class="tn">${t}</span><span class="td">${d}</span></div></div></button>`).join('');
-  $$('.tool', grid).forEach((b) => b.addEventListener('click', () => b.classList.toggle('flip')));
+  grid.innerHTML = TB.map(([f, n, c, t, ty, d, flag], i) => `<article class="tcard" data-f="${f}" tabindex="0" role="button" aria-pressed="false" aria-label="${n}, handled by ${t}. Press to preview the restoration." style="--i:${i}">
+    <div class="pv d-${c}">
+      <div class="lay deg"><img src="assets/img/sample.jpg" alt="" loading="lazy"><i class="fx"></i></div>
+      <div class="lay cln"><img src="assets/img/sample.jpg" alt="" loading="lazy"></div>
+      <span class="scanl"></span>
+      <span class="state"><b class="s0">degraded</b><b class="s1">restored</b></span>
+      ${flag === 'unseen' ? '<span class="badge">UNSEEN IN TRAINING</span>' : ''}
+    </div>
+    <div class="tb">
+      <span class="cat"><i style="background:${FAM[f][1]}"></i>${FAM[f][0]}</span>
+      <h4>${n}</h4>
+      <div class="tool-row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.6 2.6-2.4-.6-.6-2.4z"/></svg><b>${t}</b><span class="ty ty-${ty}">${TTYPE[ty]}</span></div>
+      <p>${d}${flag === 'real' ? ' <a href="#case">Real example ↓</a>' : ''}</p>
+    </div></article>`).join('');
+  const tcards = $$('.tcard', grid);
+  const setCard = (c, on) => { c.classList.toggle('on', on); c.setAttribute('aria-pressed', on); };
+  tcards.forEach((c) => {
+    c.addEventListener('click', (e) => { if (e.target.closest('a')) return; setCard(c, !c.classList.contains('on')); });
+    c.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setCard(c, !c.classList.contains('on')); } });
+  });
+  let allOn = false;
+  $('#tbAll').addEventListener('click', (e) => {
+    allOn = !allOn; $('span', e.currentTarget).textContent = allOn ? 'Degrade all' : 'Restore all';
+    tcards.filter((c) => !c.classList.contains('dim')).forEach((c, i) => setTimeout(() => setCard(c, allOn), reduce ? 0 : i * 110));
+  });
   const famOn = new Set(Object.keys(FAM)), fc = $('#famChips');
   fc.innerHTML = Object.entries(FAM).map(([k, [n, c]]) => `<button data-f="${k}" aria-pressed="true"><i style="background:${c}"></i>${n}</button>`).join('');
   fc.addEventListener('click', (e) => {
     const b = e.target.closest('button'); if (!b) return; const k = b.dataset.f;
     if (famOn.size === 4) { famOn.clear(); famOn.add(k); } else if (famOn.has(k)) { famOn.delete(k); if (!famOn.size) Object.keys(FAM).forEach((x) => famOn.add(x)); } else famOn.add(k);
     $$('button', fc).forEach((x) => x.setAttribute('aria-pressed', famOn.has(x.dataset.f)));
-    $$('.tool', grid).forEach((t) => t.classList.toggle('dim', !famOn.has(t.dataset.f)));
+    tcards.forEach((t) => t.classList.toggle('dim', !famOn.has(t.dataset.f)));
   });
 
   /* ---------- bar renderer ---------- */
@@ -572,4 +594,34 @@
   const wm = $('#wordmark');
   wm.parentElement.addEventListener('pointermove', (e) => { const r = wm.getBoundingClientRect(); wm.style.setProperty('--fx', e.clientX - r.left + 'px'); wm.style.setProperty('--fy', e.clientY - r.top + 'px'); });
   addEventListener('keydown', (e) => { if (e.key.toLowerCase() === 'd' && !e.metaKey && !e.ctrlKey && !/input|select|textarea/i.test(e.target.tagName)) $('#theme').click(); });
+
+  /* ---------- overview film ---------- */
+  const fv = $('#filmV'), fbox = $('#filmBox'), fbar = $('#filmBar'), FD = 63;
+  const CH = [['Title', 0], ['Background', 6], ['The problem', 16.5], ['Method', 25.5], ['Toolbox', 40], ['Results', 47.5]];
+  $('#filmMarks').innerHTML = CH.slice(1).map(([, t]) => `<b style="left:${(t / FD) * 100}%"></b>`).join('');
+  $('#filmCh').innerHTML = CH.map(([n, t], k) => `<button data-t="${t}"><i>${String(k + 1).padStart(2, '0')}</i>${n}</button>`).join('');
+  const chBtns = $$('#filmCh button'); let fLoaded = false, fUser = false;
+  const fLoad = () => { if (!fLoaded) { fv.src = fv.dataset.src; fLoaded = true; } };
+  const fPlay = () => { fLoad(); const p = fv.play(); if (p && p.catch) p.catch(() => {}); };
+  const fmtT = (x) => Math.floor(x / 60) + ':' + String(Math.floor(x % 60)).padStart(2, '0');
+  const fSeek = (t) => { fLoad(); const go = () => { fv.currentTime = Math.max(0, Math.min(FD - 0.05, t)); }; if (fv.readyState >= 1) go(); else fv.addEventListener('loadedmetadata', go, { once: true }); };
+  const fSync = () => {
+    const t = fv.currentTime || 0; $('#filmFill').style.width = (t / FD) * 100 + '%'; $('#filmTime').textContent = fmtT(t) + ' / ' + fmtT(FD); fbar.setAttribute('aria-valuenow', Math.round(t));
+    let k = 0; CH.forEach(([, s0], n) => { if (t >= s0 - 0.05) k = n; }); chBtns.forEach((b, n) => b.classList.toggle('on', n === k));
+  };
+  fv.addEventListener('timeupdate', fSync);
+  fv.addEventListener('play', () => fbox.classList.add('playing')); fv.addEventListener('pause', () => fbox.classList.remove('playing'));
+  const fToggle = () => { fUser = true; fbox.classList.add('started'); if (fv.paused) fPlay(); else fv.pause(); };
+  $('#filmBig').addEventListener('click', fToggle); $('#filmPlay').addEventListener('click', fToggle); fv.addEventListener('click', fToggle);
+  chBtns.forEach((b) => b.addEventListener('click', () => { fUser = true; fbox.classList.add('started'); fSeek(+b.dataset.t); fPlay(); }));
+  let fDrag = false; const fAt = (e) => { const r = fbar.getBoundingClientRect(); fSeek(((e.clientX - r.left) / r.width) * FD); fSync(); };
+  fbar.addEventListener('pointerdown', (e) => { fDrag = true; fbar.setPointerCapture(e.pointerId); fbox.classList.add('started'); fAt(e); });
+  fbar.addEventListener('pointermove', (e) => { if (fDrag) fAt(e); }); fbar.addEventListener('pointerup', () => (fDrag = false));
+  fbar.addEventListener('keydown', (e) => { if (e.key === 'ArrowRight') fSeek(fv.currentTime + 5); if (e.key === 'ArrowLeft') fSeek(fv.currentTime - 5); if (e.key === ' ') { e.preventDefault(); fToggle(); } });
+  $('#filmFs').addEventListener('click', () => { if (document.fullscreenElement) document.exitFullscreen(); else if (fbox.requestFullscreen) fbox.requestFullscreen(); else if (fv.webkitEnterFullscreen) fv.webkitEnterFullscreen(); });
+  // plays muted while on screen unless the visitor paused it; never auto-plays under reduced motion
+  new IntersectionObserver((es) => { const on = es[0].isIntersecting;
+    if (on && !reduce && !fUser) { fbox.classList.add('started'); fPlay(); } else if (!on && !fv.paused) fv.pause();
+  }, { threshold: 0.55 }).observe(fbox);
+  fSync();
 })();
